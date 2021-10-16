@@ -22,6 +22,7 @@ class TemaRacconder {
   static Color primaryColor = HexColor('#7f2bdb');
   //static Color secondaryColor = HexColor('#00caff');}
   static Color secondaryColor = HexColor('#2bdbd7');
+  static Color clearPrimaryColor = HexColor('#Ccb8e0');
   static Color rightColor = HexColor('#87db2b');
   static Color wrongColor = HexColor('#db2b2f');
   static const String fontName = 'WorkSans';

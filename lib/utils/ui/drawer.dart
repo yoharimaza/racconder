@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'racconder_theme.dart';
+import '../../config/racconder_theme.dart';
 
 class DrawerView extends StatefulWidget{
 
@@ -84,7 +84,7 @@ class _DrawerViewScreen extends State<DrawerView> {
                 ),
                 ListTile(
                   title: Text(
-                    'Recordatorios',
+                    'recordatorios',
                     style: estiloOpciones,
                   ),
                   onTap: () {
@@ -96,7 +96,7 @@ class _DrawerViewScreen extends State<DrawerView> {
                 ),
                 ListTile(
                   title: Text(
-                    'Productos',
+                    'productos',
                     style: estiloOpciones,
                   ),
                   onTap: () {
@@ -108,7 +108,7 @@ class _DrawerViewScreen extends State<DrawerView> {
                 ),
                 ListTile(
                   title: Text(
-                    'Servicios',
+                    'servicios',
                     style: estiloOpciones,
                   ),
                   onTap: () {

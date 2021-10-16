@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:racconder/main.dart';
-import 'package:racconder/racconder_theme.dart';
-import 'package:racconder/Productos/agregarProducto.dart';
-import 'package:racconder/Recordatorios/agregarRecordatorio.dart';
-import 'package:racconder/Servicios/agregarServicio.dart';
+import 'package:racconder/config/racconder_theme.dart';
+import 'package:racconder/dashboard/screens/productos/agregarProducto.dart';
+import 'package:racconder/dashboard/screens/recordatorios/agregarRecordatorio.dart';
+import 'package:racconder/dashboard/screens/servicios/agregarServicio.dart';
 
 class BotonExpandible extends StatefulWidget {
   final Function() onPressed;
@@ -86,7 +86,7 @@ class _BotonExpandibleState extends State<BotonExpandible>
             MaterialPageRoute(builder: (context) => AgregarRecordatorio()),
           );
         },
-        tooltip: 'Recordatorios',
+        tooltip: 'recordatorios',
         child: Icon(Icons.more_time),
       ),
     );
@@ -103,7 +103,7 @@ class _BotonExpandibleState extends State<BotonExpandible>
             MaterialPageRoute(builder: (context) => AgregarProducto()),
           );
         },
-        tooltip: 'Productos',
+        tooltip: 'productos',
         child: Icon(Icons.add_shopping_cart),
       ),
     );
@@ -120,7 +120,7 @@ class _BotonExpandibleState extends State<BotonExpandible>
             MaterialPageRoute(builder: (context) => AgregarServicio()),
           );
         },
-        tooltip: 'Servicios',
+        tooltip: 'servicios',
         child: Icon(Icons.add_business),
       ),
     );

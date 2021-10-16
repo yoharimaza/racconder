@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:racconder/AdminSQLite/databaseAdmin.dart';
-import 'package:racconder/Controladores/ControladorImagenes.dart';
-import 'package:racconder/Entidades/EntidadProducto.dart';
-import 'package:racconder/Home/HomePage.dart';
+import 'package:racconder/utils/services/adminSQLite/databaseAdmin.dart';
+import 'package:racconder/dashboard/controladores/controladorImagenes.dart';
+import 'package:racconder/dashboard/entidades/entidadProducto.dart';
+import 'package:racconder/dashboard/screens/home/homePage.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'dart:io';
-import '../racconder_theme.dart';
+import '../../config/racconder_theme.dart';
 
 class SeleccionarFecha extends StatefulWidget {
   @override

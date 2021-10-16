@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:racconder/AdminSQLite/databaseAdmin.dart';
-import 'package:racconder/Entidades/EntidadProducto.dart';
-import 'package:racconder/Servicios/agregarServicio.dart';
-import 'package:racconder/drawer.dart';
+import 'package:racconder/utils/services/adminSQLite/databaseAdmin.dart';
+import 'package:racconder/dashboard/entidades/entidadProducto.dart';
+import 'package:racconder/utils/ui/drawer.dart';
 import 'dart:io';
-import '../botonExpandible.dart';
-import '../racconder_theme.dart';
+import 'package:racconder/utils/ui/botonExpandible.dart';
+import 'package:racconder/config/racconder_theme.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -81,12 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(widget.title),
-                  /*
-                  Icon(
-                    Icons.home,
-                    size: 30,
-                  ),
-                   */
                 ],
               ),
             ),
@@ -97,7 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 mostrarServicios(),
               ],
             ),
-            drawer: DrawerView(),
+            drawer: DrawerView(
+
+            ),
             floatingActionButton: BotonExpandible(),
           ),
         )

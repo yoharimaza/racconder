@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:racconder/AdminSQLite/databaseAdmin.dart';
-import 'package:racconder/Controladores/ControladorImagenes.dart';
-import 'package:racconder/Entidades/EntidadProducto.dart';
-import 'package:racconder/Home/HomePage.dart';
+import 'package:racconder/main.dart';
+import 'package:racconder/utils/services/adminSQLite/databaseAdmin.dart';
+import 'package:racconder/dashboard/controladores/controladorImagenes.dart';
+import 'package:racconder/dashboard/entidades/entidadProducto.dart';
+import 'package:racconder/dashboard/screens/home/homePage.dart';
 import 'package:intl/intl.dart';
-import 'package:racconder/VistasEstandar/SeleccionarFecha.dart';
+import 'package:racconder/utils/ui/seleccionarFecha.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'dart:io';
-import '../racconder_theme.dart';
+import 'package:racconder/config/racconder_theme.dart';
 
 class AgregarProducto extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _AgregarProductoState extends State<AgregarProducto> {
 
   File imagen;
   bool banderaImagen = true;
-  bool estadoFecha = true;
+  bool usarFechaActual = true;
 
   DateTime fechaProducto;
 
@@ -43,51 +44,6 @@ class _AgregarProductoState extends State<AgregarProducto> {
     _cantidadController = TextEditingController();
     _duracionController = TextEditingController();
     super.initState();
-  }
-
-  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    // TODO: implement your code here
-    /*
-    setState(() {
-      fechaProducto = args.value;
-    });
-     */
-  }
-
-  void seleccionarFecha(BuildContext context) {
-
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text("Aceptar"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Atención"),
-      content: Container(
-        width: MediaQuery.of(context).size.width * (9/10),
-        height: MediaQuery.of(context).size.height * (7/10),
-        color: Colors.white,
-        child: SfDateRangePicker(
-          onSelectionChanged: _onSelectionChanged,
-          selectionMode: DateRangePickerSelectionMode.single,
-        ),
-      ),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   void mostrarOpcionesSeleccionarImagen(context) {
@@ -145,39 +101,40 @@ class _AgregarProductoState extends State<AgregarProducto> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Agregar Producto'),
-            IconButton(
-              icon: Icon(
-                Icons.save,
-                size: 25,
-              ),
-              onPressed: () async {
-                if (_formKey.currentState.validate() && imagen!=null) {
-                  DatabaseAdmin admin = DatabaseAdmin();
-                  await admin.initDatabase();
-                  EntidadProducto entidadProducto = EntidadProducto(_nombreController.text, _marcaController.text, _presentacionController.text, _descripcionController.text, int.parse(_cantidadController.text), int.parse(_duracionController.text), this.imagen.path);
-                  int idProducto = await admin.insertarProducto(entidadProducto);
-                  print("ID de Producto agregado: $idProducto");
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyHomePage(title: 'Racconder')),
-                  );
-                }else{
-                  if(imagen == null){
-                    setState(() {
-                      banderaImagen = false;
-                    });
-                  }else{
-                    setState(() {
-                      banderaImagen = true;
-                    });
-                  }
-                }
-              },
-            ),
           ],
         ),
       ),
       body: formAgregarProducto(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: TemaRacconder.primaryColor,
+        onPressed: () async {
+          if (_formKey.currentState.validate() && imagen!=null) {
+            DatabaseAdmin admin = DatabaseAdmin();
+            await admin.initDatabase();
+            EntidadProducto entidadProducto = EntidadProducto(_nombreController.text, _marcaController.text, _presentacionController.text, _descripcionController.text, int.parse(_cantidadController.text), int.parse(_duracionController.text), this.imagen.path);
+            int idProducto = await admin.insertarProducto(entidadProducto);
+            print("ID de Producto agregado: $idProducto");
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MyHomePage(title: 'Racconder')),
+            );
+          }else{
+            if(imagen == null){
+              setState(() {
+                banderaImagen = false;
+              });
+            }else{
+              setState(() {
+                banderaImagen = true;
+              });
+            }
+          }
+        },
+        child: Icon(
+          Icons.save,
+          size: 25,
+        ),
+      ),
     );
   }
 
@@ -358,59 +315,68 @@ class _AgregarProductoState extends State<AgregarProducto> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 20,right: 20, bottom: 10),
+                  Container(
+                    color: Colors.transparent,
                     child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Desde: '
+                                'Desde: Hoy'
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                    'Hoy'
+                            Switch(
+                              value: usarFechaActual,
+                              onChanged: (value) {
+                                setState(() {
+                                  usarFechaActual = value;
+                                  if(usarFechaActual){
+                                    this.fechaProducto = DateTime.now();
+                                  }
+                                });
+                              },
+                              activeTrackColor: TemaRacconder.clearPrimaryColor,
+                              activeColor: TemaRacconder.primaryColor,
+                            ),
+
+                            Material(
+                              child: InkWell(
+                                onTap: () async {
+                                  if(!this.usarFechaActual){
+                                    print("FECHA ACTUAL: $fechaProducto");
+                                    final result = await Navigator.push(
+                                      context,
+                                      // Create the SelectionScreen in the next step.
+                                      MaterialPageRoute(builder: (context) => SeleccionarFecha()),
+                                    );
+
+                                    if(result != null){
+                                      print("FECHA SELECCIONADA DE LA PANTALLA: $result");
+                                      setState(() {
+                                        this.fechaProducto = result;
+                                      });
+                                    }
+                                  }
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        '${DateFormat('dd / MM / yyyy').format(fechaProducto)}',
+                                      style: TextStyle(
+                                        color: (this.usarFechaActual)? Colors.black26 : Colors.black,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.edit,
+                                      color: (this.usarFechaActual)? Colors.black26 : TemaRacconder.secondaryColor,
+                                    )
+                                  ],
                                 ),
-                                Switch(
-                                  value: estadoFecha,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      estadoFecha = value;
-                                      print(estadoFecha);
-                                    });
-                                  },
-                                  activeTrackColor: Colors.yellow,
-                                  activeColor: Colors.orangeAccent,
-                                )
-                              ],
+                              ),
                             )
                           ],
                         ),
-                        Material(
-                          child: InkWell(
-                            onTap: () async {
-                              final result = await Navigator.push(
-                                context,
-                                // Create the SelectionScreen in the next step.
-                                MaterialPageRoute(builder: (context) => SeleccionarFecha()),
-                              );
-
-                              print("FECHA SELECCIONADA DE LA PANTALLA: $result");
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                    '${DateFormat('dd / MM / yyyy').format(fechaProducto)}'
-                                ),
-                                Icon(
-                                  Icons.edit,
-                                  color: Colors.green,
-                                )
-                              ],
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   )

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:racconder/drawer.dart';
-
-import '../racconder_theme.dart';
+import 'package:racconder/utils/ui/drawer.dart';
+import 'package:racconder/config/racconder_theme.dart';
 
 class AgregarRecordatorio extends StatefulWidget {
   @override

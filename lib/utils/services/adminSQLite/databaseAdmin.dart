@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:racconder/Entidades/EntidadProducto.dart';
-import 'package:racconder/Entidades/entityHistoria.dart';
-import 'package:racconder/Entidades/entityListaCompilar.dart';
-import 'package:racconder/Entidades/entityMomento.dart';
-import 'package:racconder/Entidades/entityVideo.dart';
+import 'package:racconder/dashboard/entidades/entidadProducto.dart';
+import 'package:racconder/dashboard/entidades/entityHistoria.dart';
+import 'package:racconder/dashboard/entidades/entityListaCompilar.dart';
+import 'package:racconder/dashboard/entidades/entityMomento.dart';
+import 'package:racconder/dashboard/entidades/entityVideo.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
